@@ -1,0 +1,195 @@
+.App {
+  text-align: center;
+  
+}
+body{
+  background-color: #3e2d1b;
+}
+
+
+
+.action-bar{
+  background-image: url('https://fixcom.azureedge.net/assets/content/19743/craft-beer-header.png');
+  background-size: contain;
+  height: 100px;
+}
+.action-text{
+  background:rgba(2, 2, 0, 0.15);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 800px;
+}
+
+.title{
+  margin: 0px;
+  /* padding-top: 100px;  */
+  /* position: relative;  */
+  /* display: flex; */
+  justify-content: center;
+  align-items: center; 
+  /* width: 50%;  */
+  /* height: 50%; */
+  background-image: radial-gradient(
+    ellipse 50% 35% at 50% 50%,
+    #6b1839,
+    transparent
+  ); 
+  /* transform: translate(-50%, -50%); */
+  letter-spacing: 2;
+  /* left: 50%;
+  top: 50%; */
+  font-family: "Clip";
+  text-transform: uppercase;
+  font-size: 1em;
+  color: #ffe6ff;
+  text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+  animation: shine 2s forwards, flicker 3s infinite;
+}
+
+.action{
+  margin: 0px;
+  /* padding-top: 100px;  */
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  /* width: 50%;  */
+  /* height: 50%; */
+  background-image: radial-gradient(
+    ellipse 50% 35% at 50% 50%,
+    #6b1839,
+    transparent
+  ); 
+  /* transform: translate(-50%, -50%); */
+  letter-spacing: 2;
+  /* left: 50%;
+  top: 50%; */
+  font-family: "Clip";
+  text-transform: uppercase;
+  font-size: 3em;
+  color: #ffe6ff;
+  text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+  animation: shine 2s forwards, flicker 3s infinite; 
+}
+
+.players{
+  margin: 0px;
+  /* padding-top: 100px;  */
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  /* width: 50%;  */
+  /* height: 50%; */
+  background-image: radial-gradient(
+    ellipse 50% 35% at 50% 50%,
+    #6b1839,
+    transparent
+  ); 
+  /* transform: translate(-50%, -50%); */
+  letter-spacing: 2;
+  /* left: 50%;
+  top: 50%; */
+  font-family: "Clip";
+  text-transform: uppercase;
+  font-size: 2em;
+  color: #ffe6ff;
+  text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+  animation: shine 2s forwards, flicker 3s infinite; 
+}
+
+.players-turn{
+  margin: 0px;
+  /* padding-top: 100px;  */
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  /* width: 50%;  */
+  /* height: 50%; */
+  background-image: radial-gradient(
+    ellipse 50% 35% at 50% 50%,
+    #6b1839,
+    transparent
+  ); 
+  /* transform: translate(-50%, -50%); */
+  letter-spacing: 2;
+  /* left: 50%;
+  top: 50%; */
+  font-family: "Clip";
+  text-transform: uppercase;
+  font-size: 2em;
+  color: #b10bb1;
+  text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+  animation: shine 2s forwards, flicker 3s infinite;
+}
+
+.card-container{
+  display: grid;
+  grid-template-columns: repeat(13, 1fr);
+  grid-auto-rows: auto;
+  grid-gap: 1rem;
+  /* background-image: url('https://www.icmtset.com/wp-content/uploads/2019/08/beer-bottle-cap-table.jpg'); */
+  background-color: #3e2d1b;
+  height: auto;
+  width: auto;
+}
+
+.beer-can{
+  background-image: url('https://cdn-images-1.medium.com/fit/t/1600/480/1*BaKM502JefX361RSN9V9Rw.jpeg');
+  background-size: contain;
+  height: 160px;
+  width: 1100px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.title-section{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  background-color: #3e2d1b;
+
+}
+
+.header{
+  text-align: center;
+  background-color: black;
+  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTn6c4aCWAckiHcZ7qd5kzracFtwKUzkmh5CQ&usqp=CAU') no-repeat center;
+  background-size: cover;
+
+  color: white;
+  height: 160px;
+  width: 350px;
+  border: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  font-family: "Clip";
+
+}
+
+.can{
+  height: 170px;
+}
+
+.card{
+  height: 100px;
+  border: 2px solid #e7e7e7;
+  border-radius: 4px;
+  padding: .5rem;
+}
+
+
