@@ -1,5 +1,4 @@
 import React from 'react'
-import { Socket } from 'socket.io-client';
 
 
 class Card extends React.Component {
@@ -17,19 +16,19 @@ class Card extends React.Component {
   componentDidMount(){
     this.setState({showedImage: this.state.cardImage})
 
-    this.props.socket.on('flip-card', card => {
+    this.props.socket.on('flip-card', object => {
       
-      if(card.code === this.state.cardCode){
-        this.flipCard()
+      if(object.card.code === this.state.cardCode){
+        this.flipCard(object.player)
       }
     })
   }
 
-  flipCard = () => {
+  flipCard = (player) => {
     this.setState({
       showedImage: this.state.flippedCardImage
     })
-    this.props.findAction(this.props.card.value)
+    this.props.findAction(this.props.card.value, player)
     
     
   }
@@ -37,8 +36,17 @@ class Card extends React.Component {
   checkTurn = () => {
     this.props.players.forEach(player => {
       if((player.socketId === this.props.socket.id ) && (player.isTurn === true)){
-        this.props.socket.emit('card-flip', this.props.card)
-        this.props.nextPlayersTurn()
+        const object = {
+          card: this.props.card,
+          player: player.userId
+        }
+        if(this.props.canPopped){
+          console.log("game-over hit")
+          this.props.socket.emit('game-over', "Game Over")
+        } else {
+          this.props.socket.emit('card-flip', object)
+          this.props.nextPlayersTurn()
+        }
       }
     })
   }

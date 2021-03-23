@@ -6,6 +6,7 @@ import BeerCanImage from './beerCan2.png'
 import './App.css';
 import PlayerList from './components/PlayerList'
 
+// eslint-disable-next-line
 const popped = 'http://cdn.lowgif.com/small/f6e92d70bc5aabd6-image-beer-explosion-gif-simpsons-wiki-fandom-powered-by-wikia.gif'
 const closed = BeerCanImage
 const ENDPOINT = 'http://localhost:3003/'
@@ -37,9 +38,7 @@ class App extends Component {
     })
 
     socket.on('update-players', players => {
-      if (players) {
         this.setState({players: players})
-      }
     })
 
     socket.on('next-player', message => {
@@ -50,16 +49,23 @@ class App extends Component {
       this.setState({deck: newDeck})
     })
 
-    socket.on('can-pop', id => {
+    socket.on('game-over', message => {
+      this.findAction()
+    })
+
+    socket.on('can-pop', name => {
       this.setState({canPopped: true})
-      const loser = this.state.players.find(player => player.isTurn === true )
-      this.setState({action: `Can Popped! ${loser.userId} finish your drink and start a new game!`})
+      this.setState({action: `Can Popped! ${name} finish your drink and start a new game!`})
         
       
     })
   }
 
-  findAction = (cardValue) => {
+  findAction = (cardValue, player) => {
+    const object = {
+      player: player,
+      clicks: this.state.clicks
+    }
     if(!this.state.canPopped){
       switch(cardValue) {
         case 'ACE':
@@ -104,8 +110,9 @@ class App extends Component {
         default:
           break;
         }
+      object.clicks = object.clicks + 1
       this.setState({clicks: this.state.clicks + 1})
-      socket.emit('pop-can', this.state.clicks)
+      socket.emit('pop-can', object)
     } 
     //else {
     //   this.setState({action: `Can Popped! ${this.state.loser} finish your drink and start a new game!`})
@@ -134,7 +141,7 @@ class App extends Component {
           </div>
           <div className='action-bar'>
           </div>
-          <CardCollection deck={this.state.deck} findAction={this.findAction} socket={socket} players={this.state.players} nextPlayersTurn={this.nextPlayersTurn}/>
+          <CardCollection canPopped={this.state.canPopped} deck={this.state.deck} findAction={this.findAction} socket={socket} players={this.state.players} nextPlayersTurn={this.nextPlayersTurn}/>
         </div>
       </section>
       

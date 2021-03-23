@@ -40,7 +40,7 @@ io.on('connection', socket => {
       "isTurn": false,
       "socketId": socketId
     })
-    
+  
     io.in(gameId).emit('add-player', players)
   })
   
@@ -74,15 +74,19 @@ io.on('connection', socket => {
     io.in(gameId).emit('update-players', players)
   })
   
-  socket.on('card-flip', card => {
-    io.in(gameId).emit('flip-card', card)
+  socket.on('card-flip', object => {
+    io.in(gameId).emit('flip-card', object)
+  })
+
+  socket.on('game-over', message =>{
+    io.in(gameId).emit('game-over', "Game Over")
   })
   
-  socket.on('pop-can', clicks => {
-    let min = Math.ceil(clicks)
+  socket.on('pop-can', object => {
+    let min = Math.ceil(object.clicks)
     let max = Math.floor(52)
-    if( (52 === Math.floor(Math.random() * (max - min + 1) + min)) || (clicks === 51)){
-      io.in(gameId).emit('can-pop', socket.id)
+    if( (52 === Math.floor(Math.random() * (max - min + 1) + min)) || (object.clicks === 51)){
+      io.in(gameId).emit('can-pop', object.player)
     } else {
       io.in(gameId).emit('next-player', "next player")
     }
