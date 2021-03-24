@@ -35,6 +35,14 @@ io.on('connection', socket => {
     socket.join(room)
   })
 
+  socket.on('start-game', message => {
+    canGetDeck = false
+    getDeck()
+    players[0].isTurn = true
+    io.in(gameId).emit('game-started', "game started")
+    io.in(gameId).emit('add-player', players)
+  })
+
   socket.on('new-player', name => {
     players.push({
       "userId": name,
@@ -45,16 +53,11 @@ io.on('connection', socket => {
     io.in(gameId).emit('add-player', players)
   })
   
-  socket.on('start-game', message => {
-    canGetDeck = false
-    getDeck()
-    players[0].isTurn = true
-    io.in(gameId).emit('game-started', "game started")
-    io.in(gameId).emit('add-player', players)
+  socket.on('next-turn', message => {
+    io.in(gameId).emit('update-players', players)
   })
   
   socket.on('next-players-turn', object => {
-      console.log("next-player hit", turn)
       let player = {...players[turn]}
       player.isTurn = false
       players[turn] = player
@@ -68,32 +71,28 @@ io.on('connection', socket => {
       let nextPlayer = {...players[turn]}
       nextPlayer.isTurn = true
       players[turn] = nextPlayer
-
+      
       io.in(gameId).emit('update-players', players)
-      console.log(turn)
-  })
-
-  socket.on('next-turn', message => {
-    io.in(gameId).emit('update-players', players)
-  })
+    })
+    
+    socket.on('card-flip', object => {
+      io.in(gameId).emit('flip-card', object)
+    })
   
-  socket.on('card-flip', object => {
-    io.in(gameId).emit('flip-card', object)
-  })
+    socket.on('pop-can', object => {
+      let min = Math.ceil(object.clicks)
+      let max = Math.floor(52)
+      if( (52 === Math.floor(Math.random() * (max - min + 1) + min)) || (object.clicks === 51)){
+        io.in(gameId).emit('can-pop', object.player)
+      } else {
+        io.in(gameId).emit('next-player', "next player")
+      }
+    })
 
   socket.on('game-over', message =>{
     io.in(gameId).emit('game-over', "Game Over")
   })
   
-  socket.on('pop-can', object => {
-    let min = Math.ceil(object.clicks)
-    let max = Math.floor(52)
-    if( (52 === Math.floor(Math.random() * (max - min + 1) + min)) || (object.clicks === 51)){
-      io.in(gameId).emit('can-pop', object.player)
-    } else {
-      io.in(gameId).emit('next-player', "next player")
-    }
-  })
   
   socket.on("disconnect", () => {
     console.log("Client disconnected")

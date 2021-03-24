@@ -36,6 +36,11 @@ class App extends Component {
     socket.on('game-started', message => {
       this.setState({gameStatus: true})
     })
+
+    socket.on('populate-deck', newDeck => {
+      this.setState({deck: newDeck})
+    })
+
     socket.on('add-player', players => {
       if(players){
         this.setState({players: players})
@@ -50,9 +55,6 @@ class App extends Component {
       this.nextPlayersTurn()
     })
 
-    socket.on('populate-deck', newDeck => {
-      this.setState({deck: newDeck})
-    })
 
     socket.on('game-over', message => {
       this.findAction()
@@ -60,6 +62,7 @@ class App extends Component {
 
     socket.on('can-pop', name => {
       this.setState({canPopped: true})
+      this.setState({canStatus: popped})
       this.setState({loser: name})
       this.setState({action: `Can Popped! ${name} finish your drink and start a new game!`})
         
@@ -120,10 +123,7 @@ class App extends Component {
       this.setState({clicks: this.state.clicks + 1})
       socket.emit('pop-can', object)
     } 
-    //else {
-    //   this.setState({action: `Can Popped! ${this.state.loser} finish your drink and start a new game!`})
-    //   this.setState({canStatus: popped})
-    // }
+    
   }
     
   startGame = () => {
@@ -145,7 +145,6 @@ class App extends Component {
             </div>
             <PlayerList canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
             <BeerCan canStatus={this.state.canStatus} action={this.state.action}/>
-            {/* <Action action={this.state.action}></Action> */}
           </div>
           <div className='action-bar'>
           </div>
