@@ -6,9 +6,16 @@ export default function PlayerList(props){
     return props.players.map(player => <li className={player.isTurn ? 'players' : 'players-turn'} key={player.userId}>{player.userId}</li>)
   }
 
+  function loser() {
+
+  }
   return(
     <div>
-      <ol>{showPlayers()}</ol>
+      {props.canPopped ?
+        <li className='players'>{props.loser}</li>
+        :<ol>{showPlayers()}</ol>
+      }
+      
     </div>
   )
 }

@@ -24,6 +24,7 @@ const io = socketio(server, {
 let canGetDeck = true
 let players = []
 let turn = 0
+let gameStatus = false
 const gameId = "Wooo"
 
 io.on('connection', socket => {
@@ -48,13 +49,15 @@ io.on('connection', socket => {
     canGetDeck = false
     getDeck()
     players[0].isTurn = true
+    io.in(gameId).emit('game-started', "game started")
     io.in(gameId).emit('add-player', players)
   })
   
-  socket.on('next-players-turn', nextPlayers => {
-      let player = {...nextPlayers[turn]}
+  socket.on('next-players-turn', object => {
+      console.log("next-player hit", turn)
+      let player = {...players[turn]}
       player.isTurn = false
-      nextPlayers[turn] = player
+      players[turn] = player
       
       if(turn + 1 === players.length){
         turn = 0
@@ -64,10 +67,10 @@ io.on('connection', socket => {
 
       let nextPlayer = {...players[turn]}
       nextPlayer.isTurn = true
-      nextPlayers[turn] = nextPlayer
+      players[turn] = nextPlayer
 
-      players = nextPlayers
       io.in(gameId).emit('update-players', players)
+      console.log(turn)
   })
 
   socket.on('next-turn', message => {

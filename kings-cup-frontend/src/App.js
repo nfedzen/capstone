@@ -16,6 +16,7 @@ const room = "Wooo"
 class App extends Component {
 
   state = {
+    gameStatus: false,
     action: 'Choose a Card!',
     clicks: 0,
     turn: 0,
@@ -23,6 +24,7 @@ class App extends Component {
     canStatus: closed,
     players: [],
     deck: [],
+    loser: ""
   }
   
   componentDidMount(){
@@ -31,6 +33,9 @@ class App extends Component {
     socket.emit('room', room)
     socket.emit('new-player', name)
 
+    socket.on('game-started', message => {
+      this.setState({gameStatus: true})
+    })
     socket.on('add-player', players => {
       if(players){
         this.setState({players: players})
@@ -55,6 +60,7 @@ class App extends Component {
 
     socket.on('can-pop', name => {
       this.setState({canPopped: true})
+      this.setState({loser: name})
       this.setState({action: `Can Popped! ${name} finish your drink and start a new game!`})
         
       
@@ -124,8 +130,8 @@ class App extends Component {
     socket.emit('start-game', "The game has started")
   }
   
-  nextPlayersTurn = () => {
-    socket.emit('next-players-turn', this.state.players)
+  nextPlayersTurn = (object) => {
+    socket.emit('next-players-turn', object)
   }
 
   render(){
@@ -134,8 +140,10 @@ class App extends Component {
         
         <div className="App">
           <div>
-            <button onClick={() => this.startGame()}>Start Game</button>
-            <PlayerList players={this.state.players}/>
+            <div className={this.state.gameStatus === false ? 'button-display' : 'button-hide'}>
+              <button onClick={() => this.startGame()}>Start Game</button>
+            </div>
+            <PlayerList canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
             <BeerCan canStatus={this.state.canStatus} action={this.state.action}/>
             {/* <Action action={this.state.action}></Action> */}
           </div>

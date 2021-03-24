@@ -34,18 +34,20 @@ class Card extends React.Component {
   }
 
   checkTurn = () => {
+    console.log("checkturn")
     this.props.players.forEach(player => {
       if((player.socketId === this.props.socket.id ) && (player.isTurn === true)){
         const object = {
           card: this.props.card,
-          player: player.userId
+          player: player.userId,
+          socketId: player.socketId
         }
         if(this.props.canPopped){
           console.log("game-over hit")
           this.props.socket.emit('game-over', "Game Over")
         } else {
           this.props.socket.emit('card-flip', object)
-          this.props.nextPlayersTurn()
+          this.props.nextPlayersTurn(object)
         }
       }
     })

@@ -22,6 +22,12 @@ body{
   width: 800px;
 }
 
+.button-display{
+  display: initial;
+}
+.button-hide{
+  display: none;
+}
 .title{
   margin: 0px;
   /* padding-top: 100px;  */
