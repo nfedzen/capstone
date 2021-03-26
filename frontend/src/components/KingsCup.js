@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import socketIOClient from 'socket.io-client'
-import CardCollection from './components/CardCollection'
-import BeerCan from './components/BeerCan'
-import BeerCanImage from './beerCan2.png'
-import './App.css';
-import PlayerList from './components/PlayerList'
+import CardCollection from './CardCollection'
+import BeerCan from './BeerCan'
+import BeerCanImage from '../beerCan2.png'
+import '../App.css';
+import PlayerList from './PlayerList'
 
 // eslint-disable-next-line
 const popped = 'http://cdn.lowgif.com/small/f6e92d70bc5aabd6-image-beer-explosion-gif-simpsons-wiki-fandom-powered-by-wikia.gif'
@@ -64,8 +64,7 @@ class App extends Component {
       this.setState({canPopped: true})
       this.setState({canStatus: popped})
       this.setState({loser: name})
-      this.setState({action: `Can Popped! ${name} finish your drink and start a new game!`})
-        
+      this.setState({action: `Can Popped! ${name} finish your drink and start a new game!`}) 
       
     })
   }
@@ -137,8 +136,6 @@ class App extends Component {
   render(){
     return (
       <section>
-        
-        <div className="App">
           <div>
             <div className={this.state.gameStatus === false ? 'button-display' : 'button-hide'}>
               <button onClick={() => this.startGame()}>Start Game</button>
@@ -149,7 +146,6 @@ class App extends Component {
           <div className='action-bar'>
           </div>
           <CardCollection canPopped={this.state.canPopped} deck={this.state.deck} findAction={this.findAction} socket={socket} players={this.state.players} nextPlayersTurn={this.nextPlayersTurn}/>
-        </div>
       </section>
       
     );
