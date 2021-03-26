@@ -13,7 +13,7 @@ const ENDPOINT = 'http://localhost:3003/'
 const socket = socketIOClient(ENDPOINT)
 const room = "Wooo"
 
-class App extends Component {
+class KingsCup extends Component {
 
   state = {
     gameStatus: false,
@@ -28,8 +28,8 @@ class App extends Component {
   }
   
   componentDidMount(){
-    const name = prompt('what is your name')
-    
+    const name = this.props.name
+    console.log("component did mount hit")
     socket.emit('room', room)
     socket.emit('new-player', name)
 
@@ -155,4 +155,4 @@ class App extends Component {
   
 }
 
-export default App;
+export default KingsCup;

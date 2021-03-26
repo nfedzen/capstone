@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+
 export default class PlayerForm extends Component {
   state = {
     name: ''
@@ -14,6 +15,7 @@ export default class PlayerForm extends Component {
   handleSubmit =(event) => {
     event.preventDefault()
     this.props.addPlayer(this.state.name)
+    this.props.history.push('/KingsCup')
   }
 
   render(){
