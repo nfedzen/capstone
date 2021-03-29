@@ -11,10 +11,10 @@ const popped = 'http://cdn.lowgif.com/small/f6e92d70bc5aabd6-image-beer-explosio
 const closed = BeerCanImage
 const ENDPOINT = 'http://localhost:3003/'
 const socket = socketIOClient(ENDPOINT)
-const room = "Wooo"
+//this.props.roomCode passed down from KingsGameLobby.js
 
 class KingsCup extends Component {
-
+  
   state = {
     gameStatus: false,
     action: 'Choose a Card!',
@@ -29,7 +29,9 @@ class KingsCup extends Component {
   
   componentDidMount(){
     const name = this.props.name
+    const room = this.props.roomCode
     console.log("component did mount hit")
+    //room will change to this.props.roomCode
     socket.emit('room', room)
     socket.emit('new-player', name)
 
@@ -139,8 +141,9 @@ class KingsCup extends Component {
           <div>
             <div className={this.state.gameStatus === false ? 'button-display' : 'button-hide'}>
               <button onClick={() => this.startGame()}>Start Game</button>
+              <h1>Room Code: {this.props.roomCode}</h1>
             </div>
-            <PlayerList canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
+            <PlayerList history={this.props.history} canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
             <BeerCan canStatus={this.state.canStatus} action={this.state.action}/>
           </div>
           <div className='action-bar'>

@@ -21,18 +21,21 @@ const io = socketio(server, {
   }
 })
 
-let canGetDeck = true
-let players = []
-let turn = 0
-let gameStatus = false
-const gameId = "Wooo"
+  let games = []
+
+  let canGetDeck = true
+  let players = []
+  let turn = 0
+  let gameStatus = false
+  let gameId = ''
 
 io.on('connection', socket => {
   console.log("New User Connected")
   const socketId = socket.id
 
-  socket.on('room', room =>{
-    socket.join(room)
+  socket.on('room', roomCode =>{
+    socket.join(roomCode)
+    gameId = roomCode
   })
 
   socket.on('start-game', message => {
@@ -108,6 +111,9 @@ const getDeck = () => {
   fetch('https://deckofcardsapi.com/api/deck/new/draw/?count=52')
       .then(response => response.json())
       .then(cards => io.in(gameId).emit('populate-deck', cards.cards) )
+}
+const findGame = (roomId) => {
+  return games.filter(game => game.roomId === roomId)
 }
 
 

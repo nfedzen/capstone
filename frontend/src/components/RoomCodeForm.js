@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 
 
-export default class PlayerForm extends Component {
+export default class RoomCodeForm extends Component {
   state = {
-    name: ''
+    roomCode: ''
   }
 
   handleChange = (event) => {
@@ -14,15 +14,15 @@ export default class PlayerForm extends Component {
 
   handleSubmit =(event) => {
     event.preventDefault()
-    this.props.addPlayer(this.state.name)
-    this.props.history.push('/CreateJoin')
+    this.props.addRoomCode(this.state.roomCode)
+    this.props.history.push('/KingsCup')
   }
 
   render(){
     return(
       <form onSubmit={this.handleSubmit}>
-          <label>What is your name?</label>
-          <input onChange={this.handleChange} type='text' name='name' value={this.state.name}></input>
+          <label>What is the Room Code?</label>
+          <input onChange={this.handleChange} type='text' name='roomCode' value={this.state.roomCode}></input>
           <input type='submit'></input>
       </form>
     )
