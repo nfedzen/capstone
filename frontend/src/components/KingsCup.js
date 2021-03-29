@@ -1,20 +1,20 @@
 import React, { Component } from 'react'
 import socketIOClient from 'socket.io-client'
-import CardCollection from './components/CardCollection'
-import BeerCan from './components/BeerCan'
-import BeerCanImage from './beerCan2.png'
-import './App.css';
-import PlayerList from './components/PlayerList'
+import CardCollection from './CardCollection'
+import BeerCan from './BeerCan'
+import BeerCanImage from '../beerCan2.png'
+import '../App.css';
+import PlayerList from './PlayerList'
 
 // eslint-disable-next-line
 const popped = 'http://cdn.lowgif.com/small/f6e92d70bc5aabd6-image-beer-explosion-gif-simpsons-wiki-fandom-powered-by-wikia.gif'
 const closed = BeerCanImage
 const ENDPOINT = 'http://localhost:3003/'
 const socket = socketIOClient(ENDPOINT)
-const room = "Wooo"
+//this.props.roomCode passed down from KingsGameLobby.js
 
-class App extends Component {
-
+class KingsCup extends Component {
+  
   state = {
     gameStatus: false,
     action: 'Choose a Card!',
@@ -28,8 +28,10 @@ class App extends Component {
   }
   
   componentDidMount(){
-    const name = prompt('what is your name')
-    
+    const name = this.props.name
+    const room = this.props.roomCode
+    console.log("component did mount hit")
+    //room will change to this.props.roomCode
     socket.emit('room', room)
     socket.emit('new-player', name)
 
@@ -64,8 +66,7 @@ class App extends Component {
       this.setState({canPopped: true})
       this.setState({canStatus: popped})
       this.setState({loser: name})
-      this.setState({action: `Can Popped! ${name} finish your drink and start a new game!`})
-        
+      this.setState({action: `Can Popped! ${name} finish your drink and start a new game!`}) 
       
     })
   }
@@ -137,19 +138,17 @@ class App extends Component {
   render(){
     return (
       <section>
-        
-        <div className="App">
           <div>
             <div className={this.state.gameStatus === false ? 'button-display' : 'button-hide'}>
               <button onClick={() => this.startGame()}>Start Game</button>
+              <h1>Room Code: {this.props.roomCode}</h1>
             </div>
-            <PlayerList canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
+            <PlayerList history={this.props.history} canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
             <BeerCan canStatus={this.state.canStatus} action={this.state.action}/>
           </div>
           <div className='action-bar'>
           </div>
           <CardCollection canPopped={this.state.canPopped} deck={this.state.deck} findAction={this.findAction} socket={socket} players={this.state.players} nextPlayersTurn={this.nextPlayersTurn}/>
-        </div>
       </section>
       
     );
@@ -159,4 +158,4 @@ class App extends Component {
   
 }
 
-export default App;
+export default KingsCup;
