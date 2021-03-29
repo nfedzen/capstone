@@ -22,12 +22,8 @@ const io = socketio(server, {
 })
 
   let games = []
+  let gamesIndex = 0
 
-  let canGetDeck = true
-  let players = []
-  let turn = 0
-  let gameStatus = false
-  let gameId = ''
 
 io.on('connection', socket => {
   console.log("New User Connected")
@@ -35,25 +31,40 @@ io.on('connection', socket => {
 
   socket.on('room', roomCode =>{
     socket.join(roomCode)
-    gameId = roomCode
+    if(!createNewRoom(roomCode)){
+      const gameObject = {
+        gameId: roomCode,
+        players: [],
+        turn: 0,
+        gameStatus: false,
+        canGetDeck: true,
+        index: gamesIndex
+      }
+      games.push(gameObject)
+      gamesIndex = gamesIndex + 1
+    } 
+    console.log(games)
   })
 
-  socket.on('start-game', message => {
-    canGetDeck = false
-    getDeck()
-    players[0].isTurn = true
-    io.in(gameId).emit('game-started', "game started")
-    io.in(gameId).emit('add-player', players)
+  socket.on('start-game', roomCode => {
+    let index = findGame(roomCode)
+    games[index].canGetDeck = false
+    getDeck(roomCode)
+    games[index].players[0].isTurn = true
+    io.in(games[index].gameId).emit('game-started', "game started")
+    io.in(games[index].gameId).emit('add-player', games[index].players)
   })
 
-  socket.on('new-player', name => {
-    players.push({
-      "userId": name,
+  socket.on('new-player', nameRoomObject => {
+    let newIndex = findGame(nameRoomObject.room)
+    console.log("index", newIndex)
+    games[newIndex].players.push({
+      "userId": nameRoomObject.name,
       "isTurn": false,
       "socketId": socketId
     })
-  
-    io.in(gameId).emit('add-player', players)
+    
+    io.in(games[newIndex].gameId).emit('add-player', games[newIndex].players)
   })
   
   socket.on('next-turn', message => {
@@ -61,34 +72,40 @@ io.on('connection', socket => {
   })
   
   socket.on('next-players-turn', object => {
-      let player = {...players[turn]}
+      console.log(object)
+      let index = findGame(object.roomCode)
+      let player = {...games[index].players[games[index].turn]}
       player.isTurn = false
-      players[turn] = player
+      games[index].players[games[index].turn] = player
       
-      if(turn + 1 === players.length){
-        turn = 0
+      if(games[index].turn + 1 === games[index].players.length){
+        games[index].turn = 0
       } else {
-        turn = turn + 1
+        games[index].turn = games[index].turn + 1
       }
 
-      let nextPlayer = {...players[turn]}
+      let nextPlayer = {...games[index].players[games[index].turn]}
       nextPlayer.isTurn = true
-      players[turn] = nextPlayer
+      games[index].players[games[index].turn] = nextPlayer
       
-      io.in(gameId).emit('update-players', players)
+      io.in(games[index].gameId).emit('update-players', games[index].players)
     })
     
     socket.on('card-flip', object => {
-      io.in(gameId).emit('flip-card', object)
+      console.log("object", object)
+      let index = findGame(object.roomCode)
+      io.in(games[index].gameId).emit('flip-card', object)
     })
   
     socket.on('pop-can', object => {
+      let index = findGame(object.roomCode)
       let min = Math.ceil(object.clicks)
       let max = Math.floor(52)
       if( (52 === Math.floor(Math.random() * (max - min + 1) + min)) || (object.clicks === 51)){
-        io.in(gameId).emit('can-pop', object.player)
+        io.in(games[index].gameId).emit('can-pop', object.player)
       } else {
-        io.in(gameId).emit('next-player', "next player")
+        console.log(object)
+        io.in(games[index].gameId).emit('next-player', object)
       }
     })
 
@@ -104,18 +121,35 @@ io.on('connection', socket => {
 })
 
 const removePlayer = (socket) => {
-  players = players.filter(player => player.socketId !== socket.id)
+  // games.forEach(game => {
+  //   game.players.filter(player => player.socketId !== socket.id)
+  // })
 }
 
-const getDeck = () => {
+const getDeck = (roomCode) => {
+  let index = findGame(roomCode)
   fetch('https://deckofcardsapi.com/api/deck/new/draw/?count=52')
       .then(response => response.json())
-      .then(cards => io.in(gameId).emit('populate-deck', cards.cards) )
-}
-const findGame = (roomId) => {
-  return games.filter(game => game.roomId === roomId)
+      .then(cards => io.in(games[index].gameId).emit('populate-deck', cards.cards) )
 }
 
+const findGame = (roomId) => {
+  let game = games.filter(game => game.gameId === roomId)
+  console.log(game)
+  return game[0].index
+}
+
+const createNewRoom = (roomId) => {
+  let exists = games.forEach(game => {
+    if(game.gameId === roomId){
+      return true
+    }
+  })
+  if(exists !== true){
+    exists === false
+  }
+  return exists
+}
 
 
 server.listen(port, () => console.log(`Listening on port ${port}`))
