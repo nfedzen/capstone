@@ -17,7 +17,6 @@ class Card extends React.Component {
     this.setState({showedImage: this.state.cardImage})
 
     this.props.socket.on('flip-card', object => {
-      console.log("flip-card hit in frontend")
       if(object.card.code === this.state.cardCode){
         this.flipCard(object.player)
       }

@@ -43,7 +43,6 @@ io.on('connection', socket => {
       games.push(gameObject)
       gamesIndex = gamesIndex + 1
     } 
-    console.log(games)
   })
 
   socket.on('start-game', roomCode => {
@@ -57,7 +56,6 @@ io.on('connection', socket => {
 
   socket.on('new-player', nameRoomObject => {
     let newIndex = findGame(nameRoomObject.room)
-    console.log("index", newIndex)
     games[newIndex].players.push({
       "userId": nameRoomObject.name,
       "isTurn": false,
@@ -72,7 +70,6 @@ io.on('connection', socket => {
   })
   
   socket.on('next-players-turn', object => {
-      console.log(object)
       let index = findGame(object.roomCode)
       let player = {...games[index].players[games[index].turn]}
       player.isTurn = false
@@ -92,7 +89,6 @@ io.on('connection', socket => {
     })
     
     socket.on('card-flip', object => {
-      console.log("object", object)
       let index = findGame(object.roomCode)
       io.in(games[index].gameId).emit('flip-card', object)
     })
@@ -104,7 +100,6 @@ io.on('connection', socket => {
       if( (52 === Math.floor(Math.random() * (max - min + 1) + min)) || (object.clicks === 51)){
         io.in(games[index].gameId).emit('can-pop', object.player)
       } else {
-        console.log(object)
         io.in(games[index].gameId).emit('next-player', object)
       }
     })
@@ -121,9 +116,12 @@ io.on('connection', socket => {
 })
 
 const removePlayer = (socket) => {
-  // games.forEach(game => {
-  //   game.players.filter(player => player.socketId !== socket.id)
-  // })
+  let newGames = games.map((game) => {
+    return {...game, players: game.players.filter((player) => player.socketId !== socket.id)}
+  })
+  console.log(newGames)
+  games = newGames
+  console.log(games)
 }
 
 const getDeck = (roomCode) => {
@@ -135,7 +133,6 @@ const getDeck = (roomCode) => {
 
 const findGame = (roomId) => {
   let game = games.filter(game => game.gameId === roomId)
-  console.log(game)
   return game[0].index
 }
 
