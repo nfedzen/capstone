@@ -119,8 +119,10 @@ const removePlayer = (socket) => {
   let newGames = games.map((game) => {
     return {...game, players: game.players.filter((player) => player.socketId !== socket.id)}
   })
-  console.log(newGames)
+  
   games = newGames
+  
+  removeGame()
   console.log(games)
 }
 
@@ -131,9 +133,14 @@ const getDeck = (roomCode) => {
       .then(cards => io.in(games[index].gameId).emit('populate-deck', cards.cards) )
 }
 
+const removeGame = () => {
+  let game = games.filter(game => game.players.length !== 0)
+  games = game
+}
+
 const findGame = (roomId) => {
   let game = games.filter(game => game.gameId === roomId)
-  return game[0].index
+  return games.indexOf(game[0])
 }
 
 const createNewRoom = (roomId) => {
