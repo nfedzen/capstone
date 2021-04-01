@@ -20,10 +20,10 @@ export default class RoomCodeForm extends Component {
 
   render(){
     return(
-      <form onSubmit={this.handleSubmit}>
-          <label>What is the Room Code?</label>
+      <form className='form' onSubmit={this.handleSubmit}>
+          <label className='players'>What is the Room Code?</label>
           <input onChange={this.handleChange} type='text' name='roomCode' value={this.state.roomCode}></input>
-          <input type='submit'></input>
+          <input className='button1' type='submit'></input>
       </form>
     )
   }

@@ -15,15 +15,15 @@ export default class PlayerForm extends Component {
   handleSubmit =(event) => {
     event.preventDefault()
     this.props.addPlayer(this.state.name)
-    this.props.history.push('/CreateJoin')
+    this.props.history.push('/GamesPage')
   }
 
   render(){
     return(
-      <form onSubmit={this.handleSubmit}>
-          <label>What is your name?</label>
+      <form className='form' onSubmit={this.handleSubmit}>
+          <label className='players' >What is your name?</label>
           <input onChange={this.handleChange} type='text' name='name' value={this.state.name}></input>
-          <input type='submit'></input>
+          <input className='button1' type='submit'></input>
       </form>
     )
   }

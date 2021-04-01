@@ -93,11 +93,12 @@ io.on('connection', socket => {
       io.in(games[index].gameId).emit('flip-card', object)
     })
   
+    //(52 === Math.floor(Math.random() * (max - min + 1) + min)) || (object.clicks === 51)
     socket.on('pop-can', object => {
       let index = findGame(object.roomCode)
       let min = Math.ceil(object.clicks)
       let max = Math.floor(52)
-      if( (52 === Math.floor(Math.random() * (max - min + 1) + min)) || (object.clicks === 51)){
+      if( object.clicks === 10 ){
         io.in(games[index].gameId).emit('can-pop', object.player)
       } else {
         io.in(games[index].gameId).emit('next-player', object)
@@ -106,6 +107,11 @@ io.on('connection', socket => {
 
   socket.on('game-over', message =>{
     io.in(gameId).emit('game-over', "Game Over")
+  })
+
+  socket.on('remove-player', socket =>{
+    removePlayer(socket)
+    console.log('hit')
   })
   
   

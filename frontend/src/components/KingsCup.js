@@ -141,11 +141,11 @@ class KingsCup extends Component {
     return (
       <section>
           <div>
-            <div className={this.state.gameStatus === false ? 'button-display' : 'button-hide'}>
-              <button onClick={() => this.startGame()}>Start Game</button>
+            <div className={this.state.gameStatus === false ? 'button-display form' : 'button-hide'}>
+              <button className='button1' onClick={() => this.startGame()}>Start Game</button>
               <h1>Room Code: {this.props.roomCode}</h1>
             </div>
-            <PlayerList history={this.props.history} canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
+            <PlayerList socket={socket} history={this.props.history} canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
             <BeerCan canStatus={this.state.canStatus} action={this.state.action}/>
           </div>
           <div className='action-bar'>
