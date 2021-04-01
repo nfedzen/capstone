@@ -7,16 +7,18 @@ export default function PlayerList(props){
   }
 
   function handleClick() {
+    console.log(props.socket)
+    props.socket.emit('remove-player', props.socket.id)
     props.history.push('/')
   }
 
   return(
-    <div>
+    <div className='form'>
       {props.canPopped ?
         <li className='players'>{props.loser}</li>
         :<ol>{showPlayers()}</ol>
       }
-      <button onClick={()=> handleClick()}>Home</button>
+      <button className='button1' onClick={()=> handleClick()}>Home</button>
     </div>
   )
 }

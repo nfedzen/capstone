@@ -17,7 +17,7 @@ class CreateJoinPage extends Component {
 
   randomCodeGenerator = (length) => {
       let result           = '';
-      let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let charactersLength = characters.length;
       for ( let i = 0; i < length; i++ ) {
          result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -28,10 +28,14 @@ class CreateJoinPage extends Component {
 
   render(){
     return (
-      <section>
-        <h1>Create or Join a game of King's Cup</h1>
-        <button onClick={this.handleClick}>Create</button>
-        <RoomCodeForm addRoomCode={this.props.addRoomCode} history={this.props.history}/>
+      <section >
+        <div className='action-bar'>
+        </div>
+        <div className='form'>
+          <h1>Create or Join a game of King's Cup</h1><br></br>
+          <button className='button1 button2' onClick={this.handleClick}>Create</button>
+          <RoomCodeForm addRoomCode={this.props.addRoomCode} history={this.props.history}/>
+        </div>
       </section>
     );
   }

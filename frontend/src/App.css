@@ -6,7 +6,55 @@ body{
   background-color: #3e2d1b;
 }
 
+h1{
+  margin: 0px;
+  /* padding-top: 100px;  */
+  position: relative; 
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  /* width: 50%;  */
+  /* height: 50%; */
+  background-image: radial-gradient(
+    ellipse 50% 35% at 50% 50%,
+    #6b1839,
+    transparent
+  ); 
+  /* transform: translate(-50%, -50%); */
+  letter-spacing: 2;
+  /* left: 50%;
+  top: 50%; */
+  font-family: "Clip";
+  text-transform: uppercase;
+  font-size: 2em;
+  color: #ffe6ff;
+  text-shadow: 0 0 0.6rem #ffe6ff, 0 0 1.5rem #ff65bd,
+    -0.2rem 0.1rem 1rem #ff65bd, 0.2rem 0.1rem 1rem #ff65bd,
+    0 -0.5rem 2rem #ff2483, 0 0.5rem 3rem #ff2483;
+  animation: shine 2s forwards, flicker 3s infinite;
+}
 
+.kings-img{
+  display: flex;
+  width: 550px;
+  height: 400px;
+  
+}
+
+.image-container{
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+}
+
+.center{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  flex-flow: column;
+}
 
 .action-bar{
   background-image: url('https://fixcom.azureedge.net/assets/content/19743/craft-beer-header.png');
@@ -28,6 +76,40 @@ body{
 .button-hide{
   display: none;
 }
+
+.form{
+  display:flex;
+  justify-content: center space-around;
+  flex-direction: column;
+  align-items: center;
+  align-content: space-between;
+  margin-top: 70px;
+}
+
+.button1{
+  display:inline-block;
+  
+  padding:0.35em 1.2em;
+  border:0.1em solid #010222;
+  border-radius:0.12em;
+  box-sizing: border-box;
+  text-decoration:none;
+  font-family:'Roboto',sans-serif;
+  font-weight:300;
+  color:#010e1a;
+  text-align:center;
+  transition: all 0.2s;
+}
+.button1:hover{
+  color:#000000;
+  background-color:#FFFFFF;
+}
+
+.button2{
+  width:100px;
+}
+ 
+
 .title{
   margin: 0px;
   /* padding-top: 100px;  */
@@ -87,10 +169,10 @@ body{
 .players{
   margin: 0px;
   /* padding-top: 100px;  */
-  position: relative; 
+  /* position: relative; 
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;  */
   /* width: 50%;  */
   /* height: 50%; */
   background-image: radial-gradient(
@@ -115,10 +197,10 @@ body{
 .players-turn{
   margin: 0px;
   /* padding-top: 100px;  */
-  position: relative; 
+  /* position: relative; 
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;  */
   /* width: 50%;  */
   /* height: 50%; */
   background-image: radial-gradient(

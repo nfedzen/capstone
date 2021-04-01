@@ -30,10 +30,11 @@ class KingsCup extends Component {
   componentDidMount(){
     const name = this.props.name
     const room = this.props.roomCode
+    const nameRoomObject = {name: name, room: room}
     console.log("component did mount hit")
     //room will change to this.props.roomCode
     socket.emit('room', room)
-    socket.emit('new-player', name)
+    socket.emit('new-player', nameRoomObject)
 
     socket.on('game-started', message => {
       this.setState({gameStatus: true})
@@ -53,8 +54,8 @@ class KingsCup extends Component {
         this.setState({players: players})
     })
 
-    socket.on('next-player', message => {
-      this.nextPlayersTurn()
+    socket.on('next-player', object => {
+      this.nextPlayersTurn(object)
     })
 
 
@@ -74,7 +75,8 @@ class KingsCup extends Component {
   findAction = (cardValue, player) => {
     const object = {
       player: player,
-      clicks: this.state.clicks
+      clicks: this.state.clicks,
+      roomCode: this.props.roomCode
     }
     if(!this.state.canPopped){
       switch(cardValue) {
@@ -128,7 +130,7 @@ class KingsCup extends Component {
   }
     
   startGame = () => {
-    socket.emit('start-game', "The game has started")
+    socket.emit('start-game', this.props.roomCode)
   }
   
   nextPlayersTurn = (object) => {
@@ -139,16 +141,16 @@ class KingsCup extends Component {
     return (
       <section>
           <div>
-            <div className={this.state.gameStatus === false ? 'button-display' : 'button-hide'}>
-              <button onClick={() => this.startGame()}>Start Game</button>
+            <div className={this.state.gameStatus === false ? 'button-display form' : 'button-hide'}>
+              <button className='button1' onClick={() => this.startGame()}>Start Game</button>
               <h1>Room Code: {this.props.roomCode}</h1>
             </div>
-            <PlayerList history={this.props.history} canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
+            <PlayerList socket={socket} history={this.props.history} canPopped={this.state.canPopped} loser={this.state.loser} players={this.state.players}/>
             <BeerCan canStatus={this.state.canStatus} action={this.state.action}/>
           </div>
           <div className='action-bar'>
           </div>
-          <CardCollection canPopped={this.state.canPopped} deck={this.state.deck} findAction={this.findAction} socket={socket} players={this.state.players} nextPlayersTurn={this.nextPlayersTurn}/>
+          <CardCollection roomCode={this.props.roomCode} canPopped={this.state.canPopped} deck={this.state.deck} findAction={this.findAction} socket={socket} players={this.state.players} nextPlayersTurn={this.nextPlayersTurn}/>
       </section>
       
     );

@@ -17,7 +17,6 @@ class Card extends React.Component {
     this.setState({showedImage: this.state.cardImage})
 
     this.props.socket.on('flip-card', object => {
-      
       if(object.card.code === this.state.cardCode){
         this.flipCard(object.player)
       }
@@ -39,7 +38,8 @@ class Card extends React.Component {
         const object = {
           card: this.props.card,
           player: player.userId,
-          socketId: player.socketId
+          socketId: player.socketId,
+          roomCode: this.props.roomCode
         }
         if(this.props.canPopped){
           this.props.socket.emit('game-over', "Game Over")
