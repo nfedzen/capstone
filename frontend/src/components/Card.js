@@ -42,7 +42,7 @@ class Card extends React.Component {
           roomCode: this.props.roomCode
         }
         if(this.props.canPopped){
-          this.props.socket.emit('game-over', "Game Over")
+          this.props.socket.emit('game-over', this.props.roomCode)
         } else {
           this.props.socket.emit('card-flip', object)
           this.props.nextPlayersTurn(object)
