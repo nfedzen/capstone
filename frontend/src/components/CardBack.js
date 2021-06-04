@@ -1,20 +1,20 @@
-import React from 'react'
+import React from "react";
 
 class CardBack extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
-      cardImage: '/back_of_playcard11.jpg'
-    }
+      cardImage: "/back_of_playcard11.jpg",
+    };
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div>
-        <img className='card' src={this.state.cardImage} alt="cardimg"/>
+        <img className="card" src={this.state.cardImage} alt="cardimg" />
       </div>
-    )
+    );
   }
 }
 
-export default CardBack
+export default CardBack;
