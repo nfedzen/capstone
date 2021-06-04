@@ -1,20 +1,29 @@
-import React, { Component } from 'react'
-import Card from './Card'
+import React from "react";
+import Card from "./Card";
 
-class CardCollection extends Component {
-
-  showDeck = () => {
-    return this.props.deck.map(card => 
-    <Card roomCode={this.props.roomCode} canPopped={this.props.canPopped} cardImage={this.props.cardImage} key={card.code} flipCard={this.props.flipCard} card={card} findAction={this.props.findAction} nextPlayersTurn={this.props.nextPlayersTurn} players={this.props.players} socket={this.props.socket} />)
+export default function CardCollection({
+  roomCode,
+  canPopped,
+  deck,
+  findAction,
+  socket,
+  players,
+  nextPlayersTurn,
+}) {
+  function showDeck() {
+    return deck.map((card) => (
+      <Card
+        roomCode={roomCode}
+        canPopped={canPopped}
+        key={card.code}
+        card={card}
+        findAction={findAction}
+        nextPlayersTurn={nextPlayersTurn}
+        players={players}
+        socket={socket}
+      />
+    ));
   }
 
-  render(){
-    return(
-      <div className='card-container'>
-        {this.showDeck()}
-      </div>
-  )
-  }
-  
+  return <div className="card-container">{showDeck()}</div>;
 }
-export default CardCollection

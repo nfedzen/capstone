@@ -1,30 +1,28 @@
-import React, { Component } from 'react'
+import React, { useState } from "react";
 
+export default function PlayerForm({ history, addPlayer }) {
+  const [name, setName] = useState("");
 
-export default class PlayerForm extends Component {
-  state = {
-    name: ''
+  function handleChange(e) {
+    setName(e.target.value);
   }
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
+  function handleSubmit(e) {
+    e.preventDefault();
+    addPlayer(name);
+    history.push("./GamesPage");
   }
 
-  handleSubmit =(event) => {
-    event.preventDefault()
-    this.props.addPlayer(this.state.name)
-    this.props.history.push('/GamesPage')
-  }
-
-  render(){
-    return(
-      <form className='form' onSubmit={this.handleSubmit}>
-          <label className='players' >What is your name?</label>
-          <input onChange={this.handleChange} type='text' name='name' value={this.state.name}></input>
-          <input className='button1' type='submit'></input>
-      </form>
-    )
-  }
+  return (
+    <form className="form" onSubmit={handleSubmit}>
+      <label className="players">What is your name?</label>
+      <input
+        onChange={handleChange}
+        type="text"
+        name="name"
+        value={name}
+      ></input>
+      <input className="button1" type="submit"></input>
+    </form>
+  );
 }
