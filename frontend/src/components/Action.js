@@ -1,9 +1,9 @@
 import React from "react";
 
-export default function Action(props) {
+export default function Action({ action }) {
   return (
     <div>
-      <h1 className="action">{props.action}</h1>
+      <h1 className="action">{action}</h1>
     </div>
   );
 }

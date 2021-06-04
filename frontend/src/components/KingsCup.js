@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import socketIOClient from "socket.io-client";
 import CardCollection from "./CardCollection";
-import BeerCan from "./BeerCan";
+import ActionBar from "./ActionBar";
 import BeerCanImage from "../beerCan2.png";
 import "../App.css";
 import PlayerList from "./PlayerList";
@@ -280,7 +280,7 @@ class KingsCup extends Component {
             loser={this.state.loser}
             players={this.state.players}
           />
-          <BeerCan
+          <ActionBar
             canStatus={this.state.canStatus}
             action={this.state.action}
           />
