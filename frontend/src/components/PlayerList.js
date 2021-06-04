@@ -1,8 +1,9 @@
 import React from "react";
 
-export default function PlayerList(props) {
+export default function PlayerList({socket, history, canPopped, loser, players}) {
   function showPlayers() {
-    return props.players.map((player) => (
+    console.log(players)
+    return players.map((player) => (
       <li
         className={player.isTurn ? "players" : "players-turn"}
         key={player.socketId}
@@ -13,15 +14,15 @@ export default function PlayerList(props) {
   }
 
   function handleClick() {
-    console.log(props.socket);
-    props.socket.emit("remove-player", props.socket.id);
-    props.history.push("/");
+    console.log(socket);
+    socket.emit("remove-player", socket.id);
+    history.push("/");
   }
 
   return (
     <div className="form">
-      {props.canPopped ? (
-        <li className="players">{props.loser}</li>
+      {canPopped ? (
+        <li className="players">{loser}</li>
       ) : (
         <ol>{showPlayers()}</ol>
       )}
